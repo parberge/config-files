@@ -12,3 +12,5 @@ then
     cp .vimrc ~/.vimrc
 fi
 
+# Failed when trying to execute within the scripts, so just echo it out for now
+echo "Don't forget to install the vim plugins... (vim +PluginInstall +qall)"
