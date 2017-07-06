@@ -12,5 +12,11 @@ then
     cp .vimrc ~/.vimrc
 fi
 
+if [ ! -e ~/.tmux.conf ]
+then
+    echo "Copying tmux.conf to ~/.tmux.conf"
+    cp .tmux.conf ~/.tmux.conf
+fi
+
 # Failed when trying to execute within the scripts, so just echo it out for now
 echo "Don't forget to install the vim plugins... (vim +PluginInstall +qall)"
