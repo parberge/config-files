@@ -1,0 +1,39 @@
+---
+
+- hosts: localhost
+
+  tasks:
+  
+    - name: "Check if vim is installed"
+      command: 'which {{ item }}'
+      register: has_installed
+      failed_when: False
+      changed_when: False
+      check_mode: no
+      with_items:
+        - vim
+        - tmux
+    
+    - debug: 
+        var: has_installed.results
+        verbosity: 2
+
+    - name: "Deploy vimrc"
+      template:
+        src: .vimrc
+        dest: ~/.vimrc
+      when: has_installed.results[0].rc == 0
+
+    - name: "Setup vundle"
+      git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: ~/.vim/bundle/Vundle.vim
+    
+    - name: "Install vundle plugins"
+      shell: "vim +PluginInstall +qall"
+
+    - name: "Deploy tmux.conf"
+      template:
+        src: .tmux.conf
+        dest: ~/.tmux.conf
+      when: has_installed.results[1].rc == 0
