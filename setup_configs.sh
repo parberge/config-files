@@ -20,5 +20,11 @@ then
     cp .tmux.conf ~/.tmux.conf
 fi
 
+if [ ! -e ~/.config/fish/config.fish ]
+then
+    echo "Copying config.fish to ~/.config/fish/config.fish"
+    cp config.fish ~/.config/fish/config.fish
+fi
+   
 # Failed when trying to execute within the scripts, so just echo it out for now
 echo "Don't forget to install the vim plugins... (vim +PluginInstall +qall)"
