@@ -1,0 +1,8 @@
+ansible
+bash-completion
+cask
+cmake
+fish
+git
+lastpass-cli
+python3
