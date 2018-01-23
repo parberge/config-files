@@ -13,6 +13,7 @@
       with_items:
         - vim
         - tmux
+        - git
     
     - debug: 
         var: has_installed.results
@@ -37,3 +38,9 @@
         src: .tmux.conf
         dest: ~/.tmux.conf
       when: has_installed.results[1].rc == 0
+
+    - name: "Deploy gitconfig"
+      template:
+        src: gitconfig
+        dest: ~/.gitconfig
+      when: has_installed.results[2].rc == 0
