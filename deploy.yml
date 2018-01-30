@@ -4,7 +4,7 @@
 
   tasks:
   
-    - name: "Check if vim is installed"
+    - name: "Check if {{ item }} is installed"
       command: 'which {{ item }}'
       register: has_installed
       failed_when: False
@@ -14,6 +14,9 @@
         - vim
         - tmux
         - git
+        - fish
+      check_mode: false
+      tags: always
     
     - debug: 
         var: has_installed.results
@@ -24,23 +27,35 @@
         src: .vimrc
         dest: ~/.vimrc
       when: has_installed.results[0].rc == 0
+      tags: vim
 
     - name: "Setup vundle"
       git:
         repo: https://github.com/VundleVim/Vundle.vim.git
         dest: ~/.vim/bundle/Vundle.vim
+      tags: vim
     
     - name: "Install vundle plugins"
       shell: "vim +PluginInstall +qall"
+      tags: vim
 
     - name: "Deploy tmux.conf"
       template:
         src: .tmux.conf
         dest: ~/.tmux.conf
       when: has_installed.results[1].rc == 0
+      tags: tmux
 
     - name: "Deploy gitconfig"
       template:
         src: gitconfig
         dest: ~/.gitconfig
       when: has_installed.results[2].rc == 0
+      tags: git
+
+    - name: "Deploy fish config"
+      template:
+        src: config.fish
+        dest: ~/.config/fish/config.fish
+      when: has_installed.results[3].rc == 0
+      tags: fish
