@@ -1,6 +1,10 @@
 ---
 
 - hosts: localhost
+  vars:
+    # Set to true to force fundle install
+    fundle_install: False
+
 
   tasks:
   
@@ -58,4 +62,10 @@
         src: config.fish
         dest: ~/.config/fish/config.fish
       when: has_installed.results[3].rc == 0
+      tags: fish
+      register: fish
+
+    - name: "Run fundle install"
+      shell: "fish -c 'fundle install'"
+      when: fish.changed or fundle_install
       tags: fish
