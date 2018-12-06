@@ -1,6 +1,9 @@
+status --is-interactive; and source (pyenv init -|psub)
 if not functions -q fundle; eval (curl -sfL https://git.io/fundle-install); end
 fundle plugin 'tuvistavie/fish-ssh-agent'
 
+set -x LC_ALL en_US.UTF-8
+set -x LANG en_US.UTF-8
 function fish_prompt --description 'Write out the prompt'
     # Just calculate these once, to save a few cycles when displaying the prompt
     if not set -q __fish_prompt_hostname
