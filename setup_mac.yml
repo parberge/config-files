@@ -14,7 +14,11 @@
 
     - name: "Install brew casks"
       command: "brew cask install {{ item }}"
-      with_lines: cat brew_cask_list.txt 
+      with_lines: cat brew_cask_list.txt
+
+    - name: "Install apps from app store"
+      command: "mas install {{ item }}"
+      with_lines: cat appstore_apps.txt
 
 - name: Run deploy play
   import_playbook: deploy.yml
