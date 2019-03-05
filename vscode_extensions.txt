@@ -1,3 +1,4 @@
 akamud.vscode-theme-onedark
 vscoss.vscode-ansible
 ms-python.python
+mauve.terraform
