@@ -1,0 +1,20 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: "Install homebrew"
+      shell: '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
+      args:
+        creates: /usr/local/bin/brew
+
+    - name: "Install brew packages"
+      command: "brew install {{ item }}"
+      with_lines: cat brew_list.txt
+
+    - name: "Install brew casks"
+      command: "brew cask install {{ item }}"
+      with_lines: cat brew_cask_list.txt 
+
+- name: Run deploy play
+  import_playbook: deploy.yml
