@@ -19,6 +19,7 @@
         - tmux
         - git
         - fish
+        - code
       check_mode: false
       tags: always
     
@@ -74,3 +75,9 @@
       shell: "fish -c 'fundle install'"
       when: fish.changed or fundle_install
       tags: fish
+
+    - name: "Install vs code extensions"
+      command: "code --install-extension {{ item }}"
+      with_lines: cat vscode_extensions.txt
+      when: has_installed.results[4].rc == 0
+      tags: vscode
