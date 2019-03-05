@@ -57,6 +57,11 @@
       when: has_installed.results[2].rc == 0
       tags: git
 
+    - name: "Create directory ~/.config"
+      file:
+        path: ~/.config
+        state: directory
+
     - name: "Deploy fish config"
       template:
         src: config.fish
