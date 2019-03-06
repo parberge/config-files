@@ -73,7 +73,9 @@
       tags: fish
 
     - name: "Install fisher plugins"
-      command: "fisher add {{ item }}"
+      shell: "fisher add {{ item }}"
+      args:
+        executable: /usr/local/bin/fish
       with_items:
         - "hauleth/agnoster"
 
