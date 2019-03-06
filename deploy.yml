@@ -73,6 +73,11 @@
         creates: ~/.config/fish/functions/fisher.fish
       tags: fish
 
+    - name: "Install fisher plugins"
+      command: "fisher add {{ item }}"
+      with_items:
+        - "hauleth/agnoster"
+
     - name: "Install vs code extensions"
       command: "code --install-extension {{ item }}"
       with_lines: cat vscode_extensions.txt
