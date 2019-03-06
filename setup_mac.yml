@@ -19,6 +19,8 @@
     - name: "Install apps from app store"
       command: "mas install {{ item }}"
       with_lines: cat appstore_apps.txt
+      tags:
+        - app_store
 
 - name: Run deploy play
   import_playbook: deploy.yml
