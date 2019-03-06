@@ -11,6 +11,8 @@
     - name: "Install brew packages"
       command: "brew install {{ item }}"
       with_lines: cat brew_list.txt
+      tags:
+        - brew_packages
 
     - name: "Install brew casks"
       command: "brew cask install {{ item }}"
