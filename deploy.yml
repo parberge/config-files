@@ -16,7 +16,6 @@
         - git
         - fish
         - code
-      check_mode: false
       tags: always
     
     - debug: 
