@@ -10,4 +10,4 @@ pyenv
 pipenv
 mas
 terraform
-golang
+go
