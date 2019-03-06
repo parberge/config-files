@@ -9,3 +9,5 @@ vim
 pyenv
 pipenv
 mas
+terraform
+golang
