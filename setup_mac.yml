@@ -8,9 +8,24 @@
       args:
         creates: /usr/local/bin/brew
 
+    - name: "Get installed brew packages"
+      command: "brew list"
+      register: brew_packages
+      check_mode: no
+      tags:
+        - brew_packages
+
+    - debug:
+        var: brew_packages
+        verbosity: 2
+      tags:
+        - brew_packages
+
     - name: "Install brew packages"
       command: "brew install {{ item }}"
       with_lines: cat brew_list.txt
+      when:
+        - item not in brew_packages.stdout_lines
       tags:
         - brew_packages
 
