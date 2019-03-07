@@ -11,3 +11,4 @@ pipenv
 mas
 terraform
 go
+travis
