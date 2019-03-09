@@ -8,30 +8,18 @@
       args:
         creates: /usr/local/bin/brew
 
-    - name: "Get installed brew packages"
-      command: "brew list"
-      register: brew_packages
-      check_mode: no
-      tags:
-        - brew_packages
-
-    - debug:
-        var: brew_packages
-        verbosity: 2
-      tags:
-        - brew_packages
-
     - name: "Install brew packages"
-      command: "brew install {{ item }}"
-      with_lines: cat brew_list.txt
-      when:
-        - item not in brew_packages.stdout_lines
+      homebrew:
+        state: present
+        name: "{{ query('lines', 'cat brew_list.txt') }}"
       tags:
         - brew_packages
 
     - name: "Install brew casks"
-      command: "brew cask install {{ item }}"
-      with_lines: cat brew_cask_list.txt
+      homebrew_cask:
+        name: "{{ query('lines', 'cat brew_cask_list.txt') }}"
+      tags:
+        - brew_cask_packages
 
     - name: "Install apps from app store"
       command: "mas install {{ item }}"
