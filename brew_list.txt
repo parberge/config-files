@@ -12,3 +12,4 @@ mas
 terraform
 go
 travis
+jq
