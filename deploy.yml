@@ -3,54 +3,11 @@
 - hosts: localhost
 
   tasks:
-  
-    - name: "Check if {{ item }} is installed"
-      command: 'which {{ item }}'
-      register: has_installed
-      failed_when: False
-      changed_when: False
-      check_mode: no
-      with_items:
-        - vim
-        - tmux
-        - git
-        - fish
-        - code
-      tags: always
-    
-    - debug: 
-        var: has_installed.results
-        verbosity: 2
-
-    - name: "Deploy vimrc"
-      template:
-        src: .vimrc
-        dest: ~/.vimrc
-      when: has_installed.results[0].rc == 0
-      tags: vim
-
-    - name: "Setup vundle"
-      git:
-        repo: https://github.com/VundleVim/Vundle.vim.git
-        dest: ~/.vim/bundle/Vundle.vim
-      tags: vim
-    
-    - name: "Install vundle plugins"
-      shell: "vim +PluginInstall +qall"
-      tags: vim
-
-    - name: "Deploy tmux.conf"
-      template:
-        src: .tmux.conf
-        dest: ~/.tmux.conf
-      when: has_installed.results[1].rc == 0
-      tags: tmux
 
     - name: "Deploy gitconfig"
       template:
         src: gitconfig
         dest: ~/.gitconfig
-      when: has_installed.results[2].rc == 0
       tags: git
 
     - name: "Create directory ~/.config"
@@ -62,9 +19,7 @@
       template:
         src: config.fish
         dest: ~/.config/fish/config.fish
-      when: has_installed.results[3].rc == 0
       tags: fish
-      register: fish
 
     - name: "Install fisher"
       command: curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
@@ -72,15 +27,15 @@
         creates: ~/.config/fish/functions/fisher.fish
       tags: fish
 
-    - name: "Install fisher plugins"
-      shell: "fisher add {{ item }}"
-      args:
-        executable: /usr/local/bin/fish
-      with_items:
-        - "hauleth/agnoster"
-
     - name: "Install vs code extensions"
       command: "code --install-extension {{ item }}"
       with_lines: cat vscode_extensions.txt
-      when: has_installed.results[4].rc == 0
       tags: vscode
+
+    - name: "Setup starship config"
+      template:
+        src: starship.toml
+        dest: ~/.config/starship.toml
+      tags:
+        - starship
+        - fish
