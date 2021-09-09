@@ -3,23 +3,12 @@
 - hosts: localhost
 
   tasks:
-    - name: "Install homebrew"
-      shell: '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'
-      args:
-        creates: /usr/local/bin/brew
-
     - name: "Install brew packages"
       homebrew:
         state: present
         name: "{{ query('lines', 'cat brew_list.txt') }}"
       tags:
         - brew_packages
-
-    - name: "Install brew casks"
-      homebrew_cask:
-        name: "{{ query('lines', 'cat brew_cask_list.txt') }}"
-      tags:
-        - brew_cask_packages
 
     - name: "Install apps from app store"
       command: "mas install {{ item }}"
