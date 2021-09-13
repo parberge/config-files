@@ -27,11 +27,6 @@
         creates: ~/.config/fish/functions/fisher.fish
       tags: fish
 
-    - name: "Install vs code extensions"
-      command: "code --install-extension {{ item }}"
-      with_lines: cat vscode_extensions.txt
-      tags: vscode
-
     - name: "Setup starship config"
       template:
         src: starship.toml
